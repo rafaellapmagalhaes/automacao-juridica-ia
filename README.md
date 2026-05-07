@@ -98,16 +98,6 @@ Editor utilizado para desenvolvimento do projeto.
 
 ---
 
-# 📂 Estrutura do Projeto
-
-```bash
-projeto/
-│
-├── Advocacia.py
-├── README.md
-├── requirements.txt
-└── credenciais.json
-
 # 📦 Instalação
 
 ## 1. Instalar as bibliotecas
