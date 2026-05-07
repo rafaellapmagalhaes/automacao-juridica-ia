@@ -179,7 +179,7 @@ Todas as bibliotecas necessárias estão listadas no arquivo requirements.txt.
 pip install -r requirements.txt
 ```
 ---
-#📦 Dependências utilizadas
+# 📦 Dependências utilizadas
 
 Este projeto utiliza as seguintes bibliotecas:
 
@@ -190,7 +190,7 @@ oauth2client
 ```
 
 ---
-#🔐 Configuração das credenciais
+# 🔐 Configuração das credenciais
 
 Para o funcionamento correto do projeto, é necessário configurar o arquivo credenciais.json, obtido através do Google Cloud (Google Sheets API e Google Drive API).
 
@@ -233,3 +233,8 @@ FIM
 # 👩‍💻 Desenvolvido por
 
 Rafaella Magalhães
+
+---
+# 📌 Observação
+
+Este projeto tem fins educacionais e demonstra como inteligência artificial pode ser aplicada para automatizar processos administrativos no setor jurídico, reduzindo tempo operacional e aumentando a organização de dados.
