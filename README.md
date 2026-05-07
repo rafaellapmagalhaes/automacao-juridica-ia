@@ -175,14 +175,36 @@ Editor
 Está no repositório codigopython.
 
 ---
+# ⚙️ Instalação e Execução
 
-# 📄 requirements.txt
+Para executar este projeto, siga os passos abaixo:
 
-```text
+1. Clone o repositório
+git clone URL_DO_REPOSITORIO
+2. Acesse a pasta do projeto
+cd projeto
+3. Instale as dependências
+
+Todas as bibliotecas necessárias estão listadas no arquivo requirements.txt.
+
+```bash
+pip install -r requirements.txt
+```
+---
+#📦 Dependências utilizadas
+
+Este projeto utiliza as seguintes bibliotecas:
+
+```bash
 anthropic
 gspread
 oauth2client
 ```
+
+---
+#🔐 Configuração das credenciais
+
+Para o funcionamento correto do projeto, é necessário configurar o arquivo credenciais.json, obtido através do Google Cloud (Google Sheets API e Google Drive API).
 
 ---
 
