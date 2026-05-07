@@ -1,8 +1,8 @@
 # ⚖️ Automação Jurídica com IA
 
-## 👋 Oii! 
+## 👋 Oii!
 
-Meu nome é Rafa e esse projeto foi desenvolvido como uma forma de aprender mais sobre automação, APIs, Python e Inteligência Artificial aplicada a ambientes reais.
+Meu nome é Rafaella Magalhães e esse projeto foi desenvolvido como uma forma de aprender mais sobre automação, APIs, Python e Inteligência Artificial aplicada a ambientes reais.
 
 A ideia surgiu pensando em como escritórios de advocacia ainda gastam MUITO tempo organizando manualmente informações de clientes, preenchendo planilhas e separando processos. Então resolvi criar um sistema simples, mas extremamente funcional, usando IA para automatizar tudo isso.
 
@@ -21,8 +21,20 @@ O sistema recebe textos contendo informações de clientes e utiliza a IA do Cla
 - organizar tudo em JSON
 - enviar automaticamente para uma planilha do Google Sheets
 
-Na prática, isso significa que o usuário pode simplesmente colar vários textos de clientes e deixar a IA fazer todo o trabalho maçante.
+Na prática, isso significa que o usuário pode simplesmente colar vários textos de clientes e deixar a IA fazer todo o trabalho pesado!
 
+---
+
+# 🚀 Tecnologias Utilizadas
+
+* Python
+* Claude API
+* Google Sheets API
+* Google Drive API
+* Google Cloud
+* VS Code
+
+---
 # 💡 Por que esse projeto é útil?
 
 Esse tipo de automação pode economizar MUITO tempo em ambientes jurídicos.
@@ -83,6 +95,136 @@ Editor utilizado para desenvolvimento do projeto.
 - ✔ Integração com Google Sheets
 - ✔ Automação jurídica
 - ✔ Estrutura escalável
+
+---
+
+# 📂 Estrutura do Projeto
+
+```bash
+projeto/
+│
+├── Advocacia.py
+├── README.md
+├── requirements.txt
+└── credenciais.json
+
+# 📦 Instalação
+
+## 1. Instalar as bibliotecas
+
+No terminal:
+
+```bash
+pip install anthropic gspread oauth2client
+```
+
+---
+
+# ☁️ Configuração do Google Cloud
+
+## 1. Criar Projeto
+
+Acesse:
+
+[https://console.cloud.google.com/](https://console.cloud.google.com/)
+
+Crie um novo projeto.
+
+---
+
+## 2. Ativar APIs
+
+Ative:
+
+* Google Sheets API
+* Google Drive API
+
+---
+
+## 3. Criar Conta de Serviço
+
+* APIs e Serviços
+* Credenciais
+* Criar Credenciais
+* Conta de Serviço
+
+---
+
+## 4. Gerar JSON
+
+Na conta criada:
+
+* Keys
+* Add Key
+* Create New Key
+* JSON
+
+Baixe o arquivo.
+
+Renomeie para:
+
+```bash
+credenciais.json
+```
+
+---
+
+## 5. Compartilhar Planilha
+
+Compartilhe sua planilha do Google Sheets com o e-mail da conta de serviço.
+
+Permissão:
+
+```bash
+Editor
+```
+---
+
+# 🐍 Código Principal
+
+Está no repositório codigopython.
+
+# 📄 requirements.txt
+
+```text
+anthropic
+gspread
+oauth2client
+```
+
+---
+
+# ▶️ Como Executar
+
+No terminal:
+
+```bash
+py -3.12 Advocacia.py
+```
+
+---
+
+# 🧪 Exemplo de Entrada
+
+```text
+João Silva CPF 11122233344 entrou com ação trabalhista por demissão sem direitos.
+
+Maria Souza CPF 99988877766 quer solicitar pensão alimentícia.
+
+Carlos Pereira CPF 55544433322 sofreu golpe bancário e quer processo contra o banco.
+
+FIM
+```
+
+---
+
+# 📊 Resultado Esperado
+
+| Nome           | CPF         | Processo    | Resumo                |
+| -------------- | ----------- | ----------- | --------------------- |
+| João Silva     | 11122233344 | Trabalhista | Demissão sem direitos |
+| Maria Souza    | 99988877766 | Família     | Pensão alimentícia    |
+| Carlos Pereira | 55544433322 | Civil       | Golpe bancário        |
 
 ---
 
