@@ -2,19 +2,18 @@ from anthropic import Anthropic
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
-import os
 
-# ==========================================
-# CONFIGURAÇÃO CLAUDE
-# ==========================================
+# ===================================
+# CLAUDE API
+# ===================================
 
-client = Anthropic(
-    api_key=os.getenv("ANTHROPIC_API_KEY")
+client = Anthropic( 
+    api_key="SUA_API"
 )
 
-# ==========================================
-# CONFIGURAÇÃO GOOGLE SHEETS
-# ==========================================
+# ===================================
+# GOOGLE SHEETS
+# ===================================
 
 scope = [
     "https://spreadsheets.google.com/feeds",
@@ -22,49 +21,33 @@ scope = [
 ]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "credenciais.json",
+    r"C:\Users\NOMEAQUI\credenciais.json",
     scope
 )
 
 google_client = gspread.authorize(creds)
 
-# Nome da planilha
-planilha = google_client.open("NomedaPlanilha").sheet1
+planilha = google_client.open("NomePlanilha").sheet1
 
-# ==========================================
-# ENTRADA DE DADOS
-# ==========================================
+# ===================================
+# TEXTO
+# ===================================
 
-print("=" * 50)
-print("SISTEMA JURÍDICO COM IA")
-print("=" * 50)
+texto = input("Digite os clientes:\n")
 
-print("\nCole TODOS os clientes abaixo.")
-print("Digite FIM para finalizar.\n")
-
-linhas = []
-
-while True:
-    linha = input()
-
-    if linha.strip().upper() == "FIM":
-        break
-
-    if linha.strip() != "":
-        linhas.append(linha)
-
-texto = "\n".join(linhas)
-
-# ==========================================
-# PROMPT PARA IA
-# ==========================================
+# ===================================
+# PROMPT
+# ===================================
 
 prompt = f"""
-Você é um assistente de um escritório de advocacia.
+Você trabalha em um escritório de advocacia.
 
-Extraia informações dos textos abaixo e retorne SOMENTE um JSON válido.
+Analise TODOS os clientes abaixo.
 
-FORMATO OBRIGATÓRIO:
+Retorne APENAS um JSON válido.
+
+Formato:
+
 [
   {{
     "nome": "",
@@ -74,19 +57,13 @@ FORMATO OBRIGATÓRIO:
   }}
 ]
 
-REGRAS IMPORTANTES:
-- Não escreva explicações
-- Não use markdown
-- Não adicione texto fora do JSON
-- Retorne apenas JSON puro
-
-TEXTOS:
+Texto:
 {texto}
 """
 
-# ==========================================
-# CHAMADA IA
-# ==========================================
+# ===================================
+# CLAUDE
+# ===================================
 
 message = client.messages.create(
     model="claude-sonnet-4-6",
@@ -101,39 +78,29 @@ message = client.messages.create(
 
 resultado = message.content[0].text
 
-print("\n" + "=" * 50)
-print("RESPOSTA DA IA")
-print("=" * 50)
 print(resultado)
 
-# ==========================================
-# LIMPEZA DO JSON
-# ==========================================
+# ===================================
+# TRANSFORMAR JSON
+# ===================================
 
-resultado = resultado.replace("```json", "").replace("```", "").strip()
+resultado = resultado.replace("```json", "")
+resultado = resultado.replace("```", "")
+resultado = resultado.strip()
 
-# ==========================================
-# CONVERSÃO SEGURA
-# ==========================================
+clientes = json.loads(resultado)
 
-try:
-    clientes = json.loads(resultado)
-except json.JSONDecodeError:
-    print("\n❌ Erro: a IA não retornou um JSON válido.")
-    exit()
-
-# ==========================================
-# ENVIO PARA GOOGLE SHEETS
-# ==========================================
+# ===================================
+# ENVIAR PARA SHEETS
+# ===================================
 
 for cliente in clientes:
-    nome = cliente.get("nome", "")
-    cpf = cliente.get("cpf", "")
-    processo = cliente.get("processo", "")
-    resumo = cliente.get("resumo", "")
 
-    planilha.append_row([nome, cpf, processo, resumo])
+    planilha.append_row([
+        cliente["nome"],
+        cliente["cpf"],
+        cliente["processo"],
+        cliente["resumo"]
+    ])
 
-    print(f"✅ Enviado: {nome}")
-
-print("\n🔥 Todos os clientes foram enviados com sucesso!")
+print("🔥 Todos os clientes enviados!")
