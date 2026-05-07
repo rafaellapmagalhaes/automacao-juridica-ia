@@ -98,18 +98,6 @@ Editor utilizado para desenvolvimento do projeto.
 
 ---
 
-# 📦 Instalação
-
-## 1. Instalar as bibliotecas
-
-No terminal:
-
-```bash
-pip install anthropic gspread oauth2client
-```
-
----
-
 # ☁️ Configuração do Google Cloud
 
 ## 1. Criar Projeto
