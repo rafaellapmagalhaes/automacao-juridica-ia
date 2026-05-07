@@ -174,6 +174,8 @@ Editor
 
 Está no repositório codigopython.
 
+---
+
 # 📄 requirements.txt
 
 ```text
@@ -189,7 +191,7 @@ oauth2client
 No terminal:
 
 ```bash
-py -3.12 Advocacia.py
+py -3.12 NomedoProjeto.py
 ```
 
 ---
