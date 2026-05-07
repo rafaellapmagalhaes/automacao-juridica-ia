@@ -23,25 +23,6 @@ O sistema recebe textos contendo informações de clientes e utiliza a IA do Cla
 
 Na prática, isso significa que o usuário pode simplesmente colar vários textos de clientes e deixar a IA fazer todo o trabalho maçante.
 
----
-
-# 🧠 Como o Sistema Funciona
-
-Fluxo completo:
-
-Cliente envia texto
-↓
-Python recebe os dados
-↓
-Claude API processa as informações
-↓
-A IA organiza tudo em JSON
-↓
-Python interpreta os dados
-↓
-Google Sheets é preenchido automaticamente
-
-
 # 💡 Por que esse projeto é útil?
 
 Esse tipo de automação pode economizar MUITO tempo em ambientes jurídicos.
