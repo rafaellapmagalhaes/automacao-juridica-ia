@@ -2,13 +2,14 @@ from anthropic import Anthropic
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
+import os
 
 # ==========================================
 # CONFIGURAÇÃO CLAUDE
 # ==========================================
 
 client = Anthropic(
-    api_key="SUA_API_KEY"
+    api_key=os.getenv("ANTHROPIC_API_KEY")
 )
 
 # ==========================================
@@ -21,7 +22,7 @@ scope = [
 ]
 
 creds = ServiceAccountCredentials.from_json_keyfile_name(
-    r"C:\Users\SEU_USUARIO\NomedoArquivoAPI.json",
+    "credenciais.json",
     scope
 )
 
@@ -31,7 +32,7 @@ google_client = gspread.authorize(creds)
 planilha = google_client.open("NomedaPlanilha").sheet1
 
 # ==========================================
-# ENTRADA
+# ENTRADA DE DADOS
 # ==========================================
 
 print("=" * 50)
@@ -39,35 +40,31 @@ print("SISTEMA JURÍDICO COM IA")
 print("=" * 50)
 
 print("\nCole TODOS os clientes abaixo.")
-print("Quando terminar, digite: FIM")
-print("\n")
+print("Digite FIM para finalizar.\n")
 
 linhas = []
 
 while True:
-
     linha = input()
 
-    if linha.upper() == "FIM":
+    if linha.strip().upper() == "FIM":
         break
 
-    linhas.append(linha)
+    if linha.strip() != "":
+        linhas.append(linha)
 
 texto = "\n".join(linhas)
 
 # ==========================================
-# PROMPT IA
+# PROMPT PARA IA
 # ==========================================
 
 prompt = f"""
-Você trabalha em um escritório de advocacia.
+Você é um assistente de um escritório de advocacia.
 
-Analise TODOS os clientes abaixo.
+Extraia informações dos textos abaixo e retorne SOMENTE um JSON válido.
 
-Retorne APENAS um JSON válido.
-
-Formato:
-
+FORMATO OBRIGATÓRIO:
 [
   {{
     "nome": "",
@@ -77,17 +74,18 @@ Formato:
   }}
 ]
 
-REGRAS:
+REGRAS IMPORTANTES:
 - Não escreva explicações
-- Não escreva texto fora do JSON
+- Não use markdown
+- Não adicione texto fora do JSON
 - Retorne apenas JSON puro
 
-Texto:
+TEXTOS:
 {texto}
 """
 
 # ==========================================
-# CLAUDE
+# CHAMADA IA
 # ==========================================
 
 message = client.messages.create(
@@ -103,44 +101,39 @@ message = client.messages.create(
 
 resultado = message.content[0].text
 
-print("\n")
-print("=" * 50)
+print("\n" + "=" * 50)
 print("RESPOSTA DA IA")
 print("=" * 50)
 print(resultado)
 
 # ==========================================
-# LIMPAR JSON
+# LIMPEZA DO JSON
 # ==========================================
 
-resultado = resultado.replace("```json", "")
-resultado = resultado.replace("```", "")
-resultado = resultado.strip()
+resultado = resultado.replace("```json", "").replace("```", "").strip()
 
 # ==========================================
-# CONVERTER JSON
+# CONVERSÃO SEGURA
 # ==========================================
 
-clientes = json.loads(resultado)
+try:
+    clientes = json.loads(resultado)
+except json.JSONDecodeError:
+    print("\n❌ Erro: a IA não retornou um JSON válido.")
+    exit()
 
 # ==========================================
-# ENVIAR PARA GOOGLE SHEETS
+# ENVIO PARA GOOGLE SHEETS
 # ==========================================
 
 for cliente in clientes:
-
     nome = cliente.get("nome", "")
     cpf = cliente.get("cpf", "")
     processo = cliente.get("processo", "")
     resumo = cliente.get("resumo", "")
 
-    planilha.append_row([
-        nome,
-        cpf,
-        processo,
-        resumo
-    ])
+    planilha.append_row([nome, cpf, processo, resumo])
 
-    print(f"✅ Cliente enviado: {nome}")
+    print(f"✅ Enviado: {nome}")
 
-print("\n🔥 TODOS os clientes foram enviados para o Google Sheets!")
+print("\n🔥 Todos os clientes foram enviados com sucesso!")
